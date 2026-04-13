@@ -118,7 +118,23 @@ FROM empleados
 LEFT JOIN proyectos
 ON empleados.id = proyectos.empleado_id;
 
+-- LEFT JOIN: todos los empleados con su proyecto, NULL si no tienen proyecto
+SELECT empleados.nombre, proyectos.nombre_proyecto
+FROM empleados
+LEFT JOIN proyectos
+ON empleados.id = proyectos.empleado_id;
 
+-- RIGHT JOIN: todos los proyectos con su empleado, NULL si no tienen empleado
+SELECT empleados.nombre, proyectos.nombre_proyecto
+FROM empleados
+RIGHT JOIN proyectos
+ON empleados.id = proyectos.empleado_id;
+
+-- FULL JOIN: todos los empleados y todos los proyectos, NULL donde no hay coincidencia
+SELECT empleados.nombre, proyectos.nombre_proyecto
+FROM empleados
+FULL JOIN proyectos
+ON empleados.id = proyectos.empleado_id;
 
 
 
