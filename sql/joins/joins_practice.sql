@@ -138,17 +138,102 @@ ON empleados.id = proyectos.empleado_id;
 
 
 
+SELECT nombre, departamento
+FROM empleados 
+UNION 
+SELECT nombre_proyecto, departamento
+FROM proyectos;
+
+SELECT nombre, departamento
+FROM empleados
+UNION ALL
+SELECT nombre_proyecto, departamento
+FROM proyectos;
+
+
+SELECT departamento FROM empleados 
+UNION
+SELECT departamento FROM proyectos;
+
+
+SELECT departamento FROM empleados 
+UNION ALL
+SELECT departamento FROM proyectos;
+
+
+SELECT  departamento FROM empleados
+INTERSECT
+SELECT departamento FROM proyectos;
+
+SELECT departamento FROM empleados
+EXCEPT
+SELECT departamento FROM proyectos;
+
+SELECT departamento FROM proyectos 
+EXCEPT
+SELECT departamento FROM empleados;
+
+SELECT nombre FROM empleados
+EXCEPT 
+SELECT nombre_proyecto FROM proyectos;
+
+SELECT id FROM empleados
+EXCEPT 
+SELECT empleado_id FROM proyectos;
 
 
 
+	SELECT nombre
+	FROM empleados 
+	WHERE id IN
+	    (SELECT id FROM empleados
+	     EXCEPT 
+	     SELECT empleado_id FROM proyectos);
+
+-- Empleados con salarios por arriba del salario promedio
+	SELECT nombre, salario
+	FROM empleados
+	WHERE salario > (SELECT AVG(salario)
+	FROM empleados); 
+	
+-- Proyectos cuyo presupuesto es mayor al presupuesto promedio de todos los proyectos
+
+
+SELECT nombre_proyecto, presupuesto
+FROM proyectos
+WHERE presupuesto > (SELECT AVG(presupuesto) 
+FROM proyectos);
+	
+-- Empleados que trabajan en el mismo departamento que el proyecto con mayor presupuesto
+
+SELECT nombre, departamento
+FROM empleados
+WHERE departamento IN (SELECT departamento FROM proyectos
+WHERE presupuesto = (SELECT MAX(presupuesto) FROM proyectos));
+
+-- Empleados cuyo salario es mayor al salario promedio de sus departamentos
+
+
+SELECT AVG(salario)
+FROM empleados
+WHERE departamento = 'Tecnología';
+
+
+SELECT nombre, salario, departamento
+FROM empleados e1
+WHERE salario > (
+    SELECT AVG(salario)
+    FROM empleados e2
+    WHERE e2.departamento = e1.departamento
+);
 
 
 
+SELECT *
+FROM empleados;
 
-
-
-
-
+SELECT *
+FROM proyectos;
 
 
 
