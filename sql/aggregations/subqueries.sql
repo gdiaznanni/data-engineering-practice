@@ -66,7 +66,7 @@ WHERE departamento IN (
 );
 
 
--- Nombre y salario de los empleados que ganan más que el promedio de su departamento, y agregá una columna que muestre cuánto ganan por encima de ese promedio.
+-- Nombre y salario de los empleados que ganan más que el promedio de su departamento, y agrega una columna que muestre cuánto ganan por encima de ese promedio.
     
  SELECT nombre,
        salario,
