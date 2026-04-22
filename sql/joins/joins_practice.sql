@@ -183,7 +183,7 @@ SELECT empleado_id FROM proyectos;
 
 
 
-	SELECT nombre
+SELECT nombre
 	FROM empleados 
 	WHERE id IN
 	    (SELECT id FROM empleados
@@ -191,6 +191,8 @@ SELECT empleado_id FROM proyectos;
 	     SELECT empleado_id FROM proyectos);
 
 -- Empleados con salarios por arriba del salario promedio
+
+
 	SELECT nombre, salario
 	FROM empleados
 	WHERE salario > (SELECT AVG(salario)
@@ -225,7 +227,48 @@ WHERE salario > (
     SELECT AVG(salario)
     FROM empleados e2
     WHERE e2.departamento = e1.departamento
-);
+   );
+
+-- Proyectos cuyo presupuesto es mayor al presupuesto promedio de los proyectos del mismo departamento
+
+SELECT nombre_proyecto, departamento, presupuesto
+FROM proyectos AS p1
+WHERE presupuesto > (
+     SELECT AVG(presupuesto)
+     FROM proyectos AS p2
+     WHERE p2.departamento = p1.departamento  
+     );
+
+
+SELECT nombre,
+       salario,
+       (SELECT AVG(salario) FROM empleados) AS promedio_empresa
+FROM empleados;
+
+-- Query que muestra para cada empleado: su nombre, su salario, y la diferencia entre su salario y el promedio de la empresa
+
+SELECT nombre, 
+       salario,
+       salario - (SELECT AVG(salario) FROM empleados) AS dif_salario_promedio      
+FROM empleados;
+
+SELECT departamento, promedio
+FROM (
+    SELECT departamento, AVG(salario) AS promedio
+    FROM empleados
+    GROUP BY departamento
+) AS promedios_por_depto;
+
+
+-- Departamentos cuyo promedio de salario supera 50000
+
+SELECT departamento,
+       salario
+FROM (SELECT departamento, AVG(salario) AS promedio 
+      FROM empleados
+      WHERE salario > 50000
+      GROUP BY departamento
+      );
 
 
 

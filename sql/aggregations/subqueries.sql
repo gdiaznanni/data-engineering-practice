@@ -44,3 +44,41 @@ WHERE presupuesto > (
      WHERE p2.departamento = p1.departamento  
      );
 
+
+-- Para cada empleado: nombre, salario, y la diferencia entre su salario y el promedio de la empresa
+
+SELECT nombre, 
+       salario,
+       salario - (SELECT AVG(salario) FROM empleados) AS dif_salario_promedio      
+FROM empleados;
+
+
+
+-- Nombre y salario de los empleados que trabajan en departamentos cuyo promedio de salario supera 50000
+
+SELECT nombre, salario
+FROM empleados
+WHERE departamento IN (
+    SELECT departamento
+    FROM empleados
+    GROUP BY departamento
+    HAVING AVG(salario) > 50000
+);
+
+
+-- Nombre y salario de los empleados que ganan más que el promedio de su departamento, y agregá una columna que muestre cuánto ganan por encima de ese promedio.
+    
+ SELECT nombre,
+       salario,
+       salario - (
+           SELECT AVG(salario)
+           FROM empleados e2
+           WHERE e2.departamento = e1.departamento
+       ) AS por_encima_del_promedio
+FROM empleados e1
+WHERE salario > (
+    SELECT AVG(salario)
+    FROM empleados e2
+    WHERE e2.departamento = e1.departamento
+);
+
